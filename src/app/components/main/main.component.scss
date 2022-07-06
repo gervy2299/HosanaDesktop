@@ -1,16 +1,35 @@
 .form {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
-    outline: 1px solid blue;
+    // text-align: center;
+    // outline: 1px solid blue;
+}
+
+mat-form-field {
+    margin: 15px 20px;
+}
+
+.table {
+    margin: 0 auto;
+    width: 80%;
 }
 
 table {
     width: 100%;
     margin: 20px 0;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: auto;
+}
+
+a {
+    cursor: pointer;
 }
 
 // "src/assets/style/theme.scss",

@@ -1,35 +1,102 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Usuario } from '../../interfaces/usuario';
+import { ModalsComponent } from '../modals/modals.component';
+import {MatTableDataSource} from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { PacientesService } from 'src/app/services/pacientes.service';
+import { MatSort } from '@angular/material/sort';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;  
+
+
+// const 
+
+interface EstadoPago {
+  value: string;
+  viewValue: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H',},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+interface EstadoPaciente {
+  value: string;
+  viewValue: string;
+}
+
+interface TipoPago {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent{ 
+export class MainComponent implements OnInit{ 
 
-  nombre : String = 'GERVY JOSE SALINAS BAZAN';
+  listUsuario : Usuario[] = [];
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['nombre', 'costo', 'estado', 'estadoP', 'tipoP', 'acciones'];
+  // dataSource = listUsuario;   
+  dataSource!: MatTableDataSource<any>;
+  
+  foods: EstadoPago[] = [
+    {value: 'std-0', viewValue: 'PENDIENTE'},
+    {value: 'std-1', viewValue: 'CANCELADO'},
+  ];
 
+  state: EstadoPaciente[] = [
+    {value: 'etd-0', viewValue: 'EN SALA'},
+    {value: 'etd-1', viewValue: 'EN ATENCION'},
+    {value: 'etd-1', viewValue: 'ATENDIDO'},
+  ];
+
+  tpago: TipoPago[] = [
+    {value: 'tp-0', viewValue: 'EFECTIVO'},
+    {value: 'tp-1', viewValue: 'YAPE'},
+    {value: 'tp-1', viewValue: 'DEPOSITO'},
+  ];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) _sort!: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this._sort  ;
+  }
+
+
+  // FUNCIONES
+
+  // constructor(public dialog: MatDialog) {}
+
+  constructor(public dialog: MatDialog, private _pacienteService: PacientesService) {}
+
+
+  cargarUsuario(){
+    this.listUsuario = this._pacienteService.getUsuario();
+    this.dataSource = new MatTableDataSource(this.listUsuario); 
+  }
+
+  eliminarPaciente(index: number){
+    console.log('eliminando user',index)
+    this._pacienteService.deleteUser(index);
+    this.cargarUsuario();
+  }
+
+  openDialog() {
+    this.dialog.open(ModalsComponent, {
+      data: {
+        animal: 'panda'
+      }
+    });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  ngOnInit(): void {
+    this.cargarUsuario();
+  }
 }

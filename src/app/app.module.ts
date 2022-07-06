@@ -13,6 +13,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ModalsComponent } from './components/modals/modals.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
+
+
+
 
 const routes: Routes = [
   {path: '', component:LoginComponent},
@@ -23,7 +32,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    MainComponent
+    MainComponent,
+    ModalsComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +43,12 @@ const routes: Routes = [
     MatButtonModule,
     MatTableModule,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
