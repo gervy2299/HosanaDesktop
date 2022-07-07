@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { MainComponent } from './components/main/main.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalsComponent } from './components/modals/modals.component';
 
 // ANGULAR MATERIAL
 import {MatButtonModule} from '@angular/material/button';
@@ -15,18 +16,14 @@ import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
-import { ModalsComponent } from './components/modals/modals.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 
+// CONNECT BACKEND
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
 
-
-
-const routes: Routes = [
-  {path: '', component:LoginComponent},
-  {path: 'main', component:MainComponent}
-];
 
 @NgModule({
   declarations: [
@@ -38,7 +35,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot(routes),
+    // RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     MatButtonModule,
     MatTableModule,
@@ -48,7 +45,9 @@ const routes: Routes = [
     MatDialogModule,
     MatTooltipModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
