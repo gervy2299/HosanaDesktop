@@ -67,10 +67,12 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "hosana-angular:build:production"
+                            "browserTarget": "hosana-angular:build:production",
+                            "proxyConfig": "proxy.conf.json"
                         },
                         "development": {
-                            "browserTarget": "hosana-angular:build:development"
+                            "browserTarget": "hosana-angular:build:development",
+                            "proxyConfig": "proxy.conf.json"
                         }
                     },
                     "defaultConfiguration": "development"

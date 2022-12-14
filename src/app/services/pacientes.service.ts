@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../interfaces/usuario';
-import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -8,32 +7,27 @@ import {HttpClient} from '@angular/common/http';
 export class PacientesService {
 
   listUsuario: Usuario[] = [
-    {nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
-    {nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
-    {nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
-    {nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
-    {nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
-    {nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
-    {nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
-    {nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
-    {nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
-    { nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
-    { nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
-    { nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
+    {id:1,nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
+    {id:2,nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
+    {id:3,nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
+    {id:4,nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
+    {id:5,nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
+    {id:6,nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
+    {id:7,nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
+    {id:8,nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
+    {id:9,nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
+    { id:10,nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
+    { id:11,nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
+    { id:12,nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
   ];
 
-  constructor( private http: HttpClient) { }
-
-  // RUTA DEL SERVIDOR
-  url = 'http://localhost:3000/cargo';
+  constructor() { }
 
   getUsuario(){
     return this.listUsuario.slice();
-    // return this.http.get(this.url);
   }
 
   deleteUser(index: number){
     this.listUsuario.slice(index,1);
-    // return this.http.get(this.url);
   }
 }
