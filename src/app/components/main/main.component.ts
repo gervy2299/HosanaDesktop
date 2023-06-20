@@ -8,22 +8,22 @@ import { PacientesService } from 'src/app/services/pacientes.service';
 import { MatSort } from '@angular/material/sort';
 
 
-
-// const 
-
 interface EstadoPago {
-  value: string;
+  value: number;
   viewValue: string;
+  st: boolean;
 }
 
 interface EstadoPaciente {
-  value: string;
+  value: number;
   viewValue: string;
+  st: boolean;
 }
 
 interface TipoPago {
-  value: string;
+  value: number;
   viewValue: string;
+  st: boolean;
 }
 
 @Component({
@@ -34,26 +34,24 @@ interface TipoPago {
 export class MainComponent implements OnInit{ 
 
   listUsuario : Usuario[] = [];
-
-  displayedColumns: string[] = ['nombre', 'costo', 'estado', 'estadoP', 'tipoP', 'acciones'];
-  // dataSource = listUsuario;   
+  displayedColumns: string[] = ['nombre', 'costo', 'estado', 'estadoP', 'tipoP', 'acciones'];  
   dataSource!: MatTableDataSource<any>;
   
   foods: EstadoPago[] = [
-    {value: 'std-0', viewValue: 'PENDIENTE'},
-    {value: 'std-1', viewValue: 'CANCELADO'},
+    {value: 0, viewValue: 'PENDIENTE',st:false},
+    {value: 1, viewValue: 'CANCELADO',st:false},
   ];
 
   state: EstadoPaciente[] = [
-    {value: 'etd-0', viewValue: 'EN SALA'},
-    {value: 'etd-1', viewValue: 'EN ATENCION'},
-    {value: 'etd-1', viewValue: 'ATENDIDO'},
+    {value: 0, viewValue: 'EN SALA',st:false},
+    {value: 1, viewValue: 'EN ATENCION',st:false},
+    {value: 2, viewValue: 'ATENDIDO',st:false},
   ];
 
   tpago: TipoPago[] = [
-    {value: 'tp-0', viewValue: 'EFECTIVO'},
-    {value: 'tp-1', viewValue: 'YAPE'},
-    {value: 'tp-1', viewValue: 'DEPOSITO'},
+    {value: 0, viewValue: 'EFECTIVO',st:false},
+    {value: 1, viewValue: 'YAPE',st:false},
+    {value: 2, viewValue: 'DEPOSITO',st:false},
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -62,41 +60,65 @@ export class MainComponent implements OnInit{
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this._sort  ;
+  }  
+
+  constructor(
+    public dialog: MatDialog, 
+    public pacienteService : PacientesService
+    ) {}
+
+  grabar_localstorage(pacienteNombre:any, pacienteCosto:any){
+    this.pacienteService.addPacientes({
+      nombre: pacienteNombre.value,
+      costo: pacienteCosto.value,
+      stado_pago: -1,
+      stado_paciente:-1,
+      tipo_pago: -1
+    });
+
+    this.cargarUsuario();
+
+    pacienteNombre.value = "";
+    pacienteCosto.value = "";
+    pacienteNombre.focus();
+
+    return false;
   }
 
-
-  // FUNCIONES
-
-  // constructor(public dialog: MatDialog) {}
-
-  constructor(public dialog: MatDialog, private _pacienteService: PacientesService) {}
+  eliminarPaciente(paciente: Usuario){
+    this.pacienteService.deletePacientes(paciente);
+    this.cargarUsuario();
+    console.log(paciente);
+  }
 
 
   cargarUsuario(){
-    this.listUsuario = this._pacienteService.getUsuario();
+    this.listUsuario = this.pacienteService.getPacientes();
     this.dataSource = new MatTableDataSource(this.listUsuario); 
   }
 
-  eliminarPaciente(index: number){
-    console.log('eliminando user',index)
-    this._pacienteService.deleteUser(index);
-    this.cargarUsuario();
-  }
-
-  openDialog() {
-    this.dialog.open(ModalsComponent, {
-      data: {
-        animal: 'panda'
-      }
-    });
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
   ngOnInit(): void {
+    this.cargarUsuario();   
+  }
+
+  guardarStados(paciente: Usuario){    
+    this.pacienteService.addPacientes({
+      nombre: paciente.nombre,
+      costo: paciente.costo,
+      stado_pago: paciente.stado_pago,
+      stado_paciente: paciente.stado_paciente,
+      tipo_pago: paciente.tipo_pago
+    });
+
+    console.log(paciente)
+
+    this.cargarUsuario();
+
+  }
+
+  vaciarLocal(){
+    localStorage.clear();
     this.cargarUsuario();
   }
+  
 }

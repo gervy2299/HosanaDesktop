@@ -5,124 +5,120 @@
     </mat-form-field> -->
     <mat-form-field class="" appearance="fill">
         <mat-label class="important">Nombres y Apellidos</mat-label>
-        <input matInput placeholder="Ejm: MIGUEL LUIS ADREDA SILVA">
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-        <mat-label class="important">Tiempo de Tratamiento</mat-label>
-        <input matInput placeholder="Ejm: 2">
+        <input style="text-transform: uppercase;" matInput placeholder="Ejm: MIGUEL LUIS ADREDA SILVA" #pacienteNombre>
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label class="important">Costo</mat-label>
-        <input matInput placeholder="Ejm: 35">
+        <input type="number" matInput placeholder="Ejm: 35" #pacienteCosto>
     </mat-form-field>
     <!-- <mat-form-field appearance="fill">
         <mat-label class="important">Estado</mat-label>
         <input matInput placeholder="Ex. {{nombre}}">
     </mat-form-field> -->
-    <button mat-raised-button color="primary" (click)="openDialog()" matTooltip="Agregar paciente a la lista">Agregar</button>
+    <button style="margin: 0 4px;" mat-raised-button color="primary" (click)="grabar_localstorage(pacienteNombre, pacienteCosto)" matTooltip="Agregar paciente a la lista">Agregar</button>    
+    <button  mat-raised-button color="warn" (click)="vaciarLocal()">Resetear</button>    
+    
 </div>
 <div class="table">
 
-    <mat-form-field appearance="standard" class="filtro" matTooltip="Filtro por nombre o costo">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Reina" #input>
-    </mat-form-field>
-
     <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+      
+          <!-- Position Column -->
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
 
-        <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Name Column -->
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE Y APELLIDOS </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
 
-            <!-- Position Column -->
-            <ng-container matColumnDef="position">
-                <th mat-header-cell *matHeaderCellDef> No. </th>
-                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-            </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="costo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> COSTO </th>
+            <td mat-cell *matCellDef="let element"> {{element.costo}} </td>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="nombre">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE Y APELLIDOS </th>
-                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-            </ng-container>
+        </ng-container>
 
-            <!-- Weight Column -->
-            <ng-container matColumnDef="costo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> COSTO </th>
-                <td mat-cell *matCellDef="let element"> {{element.costo}} </td>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef> ESTADO DE PAGO </th>
+            <!-- <td mat-cell *matCellDef="let element"> {{element.estado}} </td> -->
+            <td mat-cell *matCellDef="let element">
+                <!-- {{element.estado}} -->
+                <!-- <button mat-raised-button color="warn">Agregar</button> -->
+                <mat-form-field appearance="fill">
+                    <mat-label class="important">Estado</mat-label>
+                    <mat-select [(value)]="element.stado_pago">
+                        <mat-option #stadopago *ngFor="let food of foods" [value]="food.value">
+                            {{food.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </ng-container>
 
-            </ng-container>
+        <ng-container matColumnDef="estadoP">
+            <th mat-header-cell *matHeaderCellDef> ESTADO DEL PACIENTE </th>
+            <!-- <td mat-cell *matCellDef="let element"> {{element.estado}} </td> -->
+            <td mat-cell *matCellDef="let element">
+                <!-- {{element.estado}} -->
+                <!-- <button mat-raised-button color="warn">Agregar</button> -->
+                <mat-form-field appearance="fill">
+                    <mat-label class="important">Estado del paciente</mat-label>
+                    <mat-select [(value)]="element.stado_paciente">
+                        <mat-option #spaciente *ngFor="let states of state" [value]="states.value">
+                            {{states.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </ng-container>
 
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="estado">
-                <th mat-header-cell *matHeaderCellDef> ESTADO DE PAGO </th>
-                <!-- <td mat-cell *matCellDef="let element"> {{element.estado}} </td> -->
-                <td mat-cell *matCellDef="let element">
-                    <!-- {{element.estado}} -->
-                    <!-- <button mat-raised-button color="warn">Agregar</button> -->
-                    <mat-form-field appearance="fill">
-                        <mat-label class="important">Estado</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let food of foods" [value]="food.value">
-                                {{food.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-            </ng-container>
+        <ng-container matColumnDef="tipoP">
+            <th mat-header-cell *matHeaderCellDef> TIPO DE PAGO </th>
+            <!-- <td mat-cell *matCellDef="let element"> {{element.estado}} </td> -->
+            <td mat-cell *matCellDef="let element">
+                <!-- {{element.estado}} -->
+                <!-- <button mat-raised-button color="warn">Agregar</button> -->
+                <mat-form-field appearance="fill">
+                    <mat-label class="important">Tipo de Pago</mat-label>
+                    <mat-select [(value)]="element.tipo_pago">
+                        <mat-option #tpago *ngFor="let tpagos of tpago" [value]="tpagos.value" >
+                            {{tpagos.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </ng-container>
 
-            <ng-container matColumnDef="estadoP">
-                <th mat-header-cell *matHeaderCellDef> ESTADO DEL PACIENTE </th>
-                <!-- <td mat-cell *matCellDef="let element"> {{element.estado}} </td> -->
-                <td mat-cell *matCellDef="let element">
-                    <!-- {{element.estado}} -->
-                    <!-- <button mat-raised-button color="warn">Agregar</button> -->
-                    <mat-form-field appearance="fill">
-                        <mat-label class="important">Estado del paciente</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let states of state" [value]="states.value">
-                                {{states.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-            </ng-container>
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <a class="pointer" (click)="eliminarPaciente(element)" matTooltip="Eliminar Usuario" style="color: red">
+                    <mat-icon>delete</mat-icon>
+                </a>
 
-            <ng-container matColumnDef="tipoP">
-                <th mat-header-cell *matHeaderCellDef> TIPO DE PAGO </th>
-                <!-- <td mat-cell *matCellDef="let element"> {{element.estado}} </td> -->
-                <td mat-cell *matCellDef="let element">
-                    <!-- {{element.estado}} -->
-                    <!-- <button mat-raised-button color="warn">Agregar</button> -->
-                    <mat-form-field appearance="fill">
-                        <mat-label class="important">Tipo de Pago</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let tpagos of tpago" [value]="tpagos.value">
-                                {{tpagos.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-            </ng-container>
+                <a class="pointer" (click)="guardarStados(element)" matTooltip="Guardar Estado" style="color: #3f51b5">
+                    <mat-icon>save</mat-icon>
+                </a>
 
-            <ng-container matColumnDef="acciones">
-                <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
-                <td mat-cell *matCellDef="let element; let i = index">
-                    <a class="pointer" (click)="eliminarPaciente(i)" matTooltip="Eliminar Usuario" style="color: red">
-                        <mat-icon>delete</mat-icon>
-                    </a>
-                </td>
+            </td>
 
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-            </tr>
-
+        </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-    </div>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                       showFirstLastButtons 
+                       aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+      
 
 </div>

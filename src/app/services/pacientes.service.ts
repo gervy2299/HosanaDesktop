@@ -4,30 +4,55 @@ import { Usuario } from '../interfaces/usuario';
 @Injectable({
   providedIn: 'root'
 })
-export class PacientesService {
+export class PacientesService {  
 
-  listUsuario: Usuario[] = [
-    {id:1,nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
-    {id:2,nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
-    {id:3,nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
-    {id:4,nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
-    {id:5,nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
-    {id:6,nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
-    {id:7,nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
-    {id:8,nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
-    {id:9,nombre: 'REINA BERENICE ROJAS TORRES ', costo: '35.00'},
-    { id:10,nombre: 'MARIANO JESUS POLANCO RIOS  ', costo: '180.00'},
-    { id:11,nombre: 'ANTONIO SIMON CARDENAS  ', costo: '35.00'},
-    { id:12,nombre: 'MARIANO ANDRES VALLE UTRILLA  ', costo: '35.00'},
-  ];
+  pacientes: Usuario[] = [];  
 
-  constructor() { }
-
-  getUsuario(){
-    return this.listUsuario.slice();
+  constructor(){
+    this.pacientes = [
+      // {nombre: 'GERVY SALINAS' , costo:35},
+      // {nombre: 'FERNANDO SALINAS' , costo:55},
+      // {nombre: 'MARGERY SALINAS' , costo:75}
+    ]   
   }
 
-  deleteUser(index: number){
-    this.listUsuario.slice(index,1);
+  getPacientes(){
+    if(localStorage.getItem('PACIENTES') === null){
+      return this.pacientes;
+    } else {
+      this.pacientes = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
+      return this.pacientes;
+    }
   }
+
+  addPacientes(paciente:Usuario){
+
+    let paci: Usuario[] = [];
+    // this.pacientes.push(paciente);
+    if(localStorage.getItem('PACIENTES') === null){
+      paci.push(paciente);
+      localStorage.setItem("PACIENTES", JSON.stringify(paci));
+    } else {
+      paci = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
+      paci.push(paciente);
+      localStorage.setItem("PACIENTES", JSON.stringify(paci));
+    }
+
+    return false;
+  }
+
+  deletePacientes(paciente: Usuario){
+    for(let i = 0; i<this.pacientes.length; i++){
+      if(paciente == this.pacientes[i]){
+        this.pacientes.splice(i,1);
+        localStorage.setItem('PACIENTES', JSON.stringify(this.pacientes));
+      }
+    }
+  }
+
+  editarPacientes(){
+    
+  }
+
+
 }

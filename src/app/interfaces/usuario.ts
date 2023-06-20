@@ -1,7 +1,7 @@
 export interface Usuario {
-    // position: number;
-    id: number;
-    nombre: string;
-    costo: string;
-    // estado: string;  
+    nombre: string,
+    costo: number,
+    stado_pago: number;
+    stado_paciente: number,
+    tipo_pago: number
 }
