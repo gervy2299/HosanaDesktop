@@ -118,7 +118,9 @@ export class MainComponent implements OnInit{
 
   vaciarLocal(){
     localStorage.clear();
-    this.cargarUsuario();
+    console.log('se esta borrando la lista...');
+    // this.cargarUsuario();
+    location.reload();    
   }
   
 }

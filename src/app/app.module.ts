@@ -23,6 +23,7 @@ import {MatIconModule} from '@angular/material/icon';
 // CONNECT BACKEND
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
+import { PdfComponent } from './components/pdf/pdf.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {FormsModule} from '@angular/forms';
     AppComponent,
     LoginComponent,
     MainComponent,
-    ModalsComponent
+    ModalsComponent,
+    PdfComponent
   ],
   imports: [
     BrowserModule,
