@@ -7,7 +7,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { MatSort } from '@angular/material/sort';
 
-
 interface EstadoPago {
   value: number;
   viewValue: string;
@@ -52,7 +51,10 @@ export class MainComponent implements OnInit{
     {value: 0, viewValue: 'EFECTIVO',st:false},
     {value: 1, viewValue: 'YAPE',st:false},
     {value: 2, viewValue: 'DEPOSITO',st:false},
-  ];
+  ];     
+
+   dia=this.pacienteService.obtenerFechaActualEnLetra();
+   cantidad =this.pacienteService.obtenerCantidadPacientes();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) _sort!: MatSort;
@@ -65,7 +67,8 @@ export class MainComponent implements OnInit{
   constructor(
     public dialog: MatDialog, 
     public pacienteService : PacientesService
-    ) {}
+    ) {
+    }
 
   grabar_localstorage(pacienteNombre:any, pacienteCosto:any){
     this.pacienteService.addPacientes({
@@ -95,6 +98,8 @@ export class MainComponent implements OnInit{
   cargarUsuario(){
     this.listUsuario = this.pacienteService.getPacientes();
     this.dataSource = new MatTableDataSource(this.listUsuario); 
+    this.dia = this.pacienteService.obtenerFechaActualEnLetra();
+    this.cantidad = this.pacienteService.obtenerCantidadPacientes();
   }
 
   ngOnInit(): void {
@@ -122,5 +127,11 @@ export class MainComponent implements OnInit{
     // this.cargarUsuario();
     location.reload();    
   }
+
+  editarPaciente(paciente: Usuario) {
+    this.pacienteService.editarPacientes(paciente);
+    this.cargarUsuario();
+  }
+  
   
 }

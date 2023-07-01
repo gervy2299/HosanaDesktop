@@ -24,6 +24,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { PdfComponent } from './components/pdf/pdf.component';
+import {MatDividerModule} from '@angular/material/divider';
+
 
 
 @NgModule({
@@ -50,6 +52,7 @@ import { PdfComponent } from './components/pdf/pdf.component';
     MatIconModule,
     HttpClientModule,
     FormsModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

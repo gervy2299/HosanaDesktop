@@ -13,7 +13,7 @@ export class PacientesService {
       // {nombre: 'GERVY SALINAS' , costo:35},
       // {nombre: 'FERNANDO SALINAS' , costo:55},
       // {nombre: 'MARGERY SALINAS' , costo:75}
-    ]   
+    ];
   }
 
   getPacientes(){
@@ -50,9 +50,60 @@ export class PacientesService {
     }
   }
 
-  editarPacientes(){
-    
+  editarPacientes(paciente: Usuario) {
+    // const pacientes = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
+  
+    for (let i = 0; i < this.pacientes.length; i++) {
+      if (paciente == this.pacientes[i]) {
+        this.pacientes[i] = paciente;
+        break;
+      }
+    }
+  
+    localStorage.setItem('PACIENTES', JSON.stringify(this.pacientes));
+  }  
+
+  obtenerFechaActual(): string {
+    const fechaActual = new Date();
+    const dia = fechaActual.getDate();
+    const mes = fechaActual.getMonth() + 1; // Los meses comienzan desde 0
+    const año = fechaActual.getFullYear();
+  
+    return `${año}-${mes < 10 ? '0' + mes : mes}-${dia < 10 ? '0' + dia : dia}`;
   }
 
+  obtenerCantidadPacientes(): number {
+    const pacientes = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
+    return pacientes.length;
+  }
+  
+  obtenerSumaCostos(): number {
+    const pacientes = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
+    let sumaCostos = 0;
+  
+    pacientes.forEach((paciente: any) => {
+      sumaCostos += parseFloat(paciente.costo);
+    });
+  
+    return sumaCostos;
+  }
+
+  obtenerFechaActualEnLetra(): string {
+    const fechaActual = new Date();
+    
+    const dia = fechaActual.getDate();
+    const mes = fechaActual.getMonth();
+    const año = fechaActual.getFullYear();
+    
+    const mesesEnLetra = [
+      "enero", "febrero", "marzo", "abril", "mayo", "junio",
+      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+    ];
+    
+    const fechaEnLetra = `${dia} de ${mesesEnLetra[mes]} de ${año}`;
+    
+    return fechaEnLetra;
+  }
+  
 
 }
