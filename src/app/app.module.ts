@@ -25,6 +25,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { PdfComponent } from './components/pdf/pdf.component';
 import {MatDividerModule} from '@angular/material/divider';
+import { DialogComponent } from './components/dialog/dialog.component';
+
 
 
 
@@ -34,7 +36,8 @@ import {MatDividerModule} from '@angular/material/divider';
     LoginComponent,
     MainComponent,
     ModalsComponent,
-    PdfComponent
+    PdfComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,

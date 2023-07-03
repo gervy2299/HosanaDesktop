@@ -52,14 +52,23 @@
             <td mat-cell *matCellDef="let element">
                 <!-- {{element.estado}} -->
                 <!-- <button mat-raised-button color="warn">Agregar</button> -->
-                <mat-form-field appearance="fill">
+                <!-- <mat-form-field appearance="fill">
                     <mat-label class="important">Estado</mat-label>
                     <mat-select [(value)]="element.stado_pago">
                         <mat-option #stadopago *ngFor="let food of foods" [value]="food.value">
                             {{food.viewValue}}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
+                <mat-form-field appearance="fill" >
+                    <mat-label class="important">Estado</mat-label>
+                    <mat-select [(value)]="element.stado_pago"  [ngStyle]="obtenerEstilosEstado(element.stado_pago)" (selectionChange)="editarPaciente(element)">
+                      <mat-option #stadopago *ngFor="let food of foods" [value]="food.value">
+                        {{food.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  
             </td>
         </ng-container>
 
@@ -71,7 +80,7 @@
                 <!-- <button mat-raised-button color="warn">Agregar</button> -->
                 <mat-form-field appearance="fill">
                     <mat-label class="important">Estado del paciente</mat-label>
-                    <mat-select [(value)]="element.stado_paciente">
+                    <mat-select [(value)]="element.stado_paciente" [ngStyle]="obtenerEstilosEstadoPaciente(element.stado_paciente)" (selectionChange)="editarPaciente(element)">
                         <mat-option #spaciente *ngFor="let states of state" [value]="states.value">
                             {{states.viewValue}}
                         </mat-option>
@@ -88,7 +97,7 @@
                 <!-- <button mat-raised-button color="warn">Agregar</button> -->
                 <mat-form-field appearance="fill">
                     <mat-label class="important">Tipo de Pago</mat-label>
-                    <mat-select [(value)]="element.tipo_pago">
+                    <mat-select [(value)]="element.tipo_pago" [ngStyle]="obtenerTipoPago(element.tipo_pago)" (selectionChange)="editarPaciente(element)">
                         <mat-option #tpago *ngFor="let tpagos of tpago" [value]="tpagos.value" >
                             {{tpagos.viewValue}}
                         </mat-option>
@@ -104,9 +113,9 @@
                     <mat-icon>delete</mat-icon>
                 </a>
 
-                <a class="pointer" (click)="editarPaciente(element)" matTooltip="Guardar Estado" style="color: #3f51b5">
+                <!-- <a class="pointer" (click)="editarPaciente(element)" matTooltip="Guardar Estado" style="color: #3f51b5">
                     <mat-icon>save</mat-icon>
-                </a>
+                </a> -->
 
             </td>
 

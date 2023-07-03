@@ -6,6 +6,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { MatSort } from '@angular/material/sort';
+import { DialogComponent } from '../dialog/dialog.component';
 
 interface EstadoPago {
   value: number;
@@ -72,7 +73,7 @@ export class MainComponent implements OnInit{
 
   grabar_localstorage(pacienteNombre:any, pacienteCosto:any){
     this.pacienteService.addPacientes({
-      nombre: pacienteNombre.value,
+      nombre: pacienteNombre.value.toUpperCase(),
       costo: pacienteCosto.value,
       stado_pago: -1,
       stado_paciente:-1,
@@ -89,9 +90,20 @@ export class MainComponent implements OnInit{
   }
 
   eliminarPaciente(paciente: Usuario){
-    this.pacienteService.deletePacientes(paciente);
-    this.cargarUsuario();
-    console.log(paciente);
+    const dialogRef = this.dialog.open(DialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if(result === true){
+        this.pacienteService.deletePacientes(paciente);
+        this.cargarUsuario();
+        // console.log(paciente);
+        // console.log("se elimino")
+      } else {
+        // console.log("no se elimino")
+      }
+    });
+    // this.pacienteService.deletePacientes(paciente);
   }
 
 
@@ -133,5 +145,38 @@ export class MainComponent implements OnInit{
     this.cargarUsuario();
   }
   
+  obtenerEstilosEstado(estado: string): { [key: string]: string } {
+    if (parseInt(estado) === 1) {
+      return { };
+    } else if (parseInt(estado) === 0) {
+      return { 'background-color': '#FFFF99' };
+    } else {
+      return {}; // Estilos por defecto si no se cumple ninguna condición
+    }
+  }
+
+  obtenerEstilosEstadoPaciente(estado: string): { [key: string]: string } {
+    if (parseInt(estado) === 0) {
+      return { 'background-color': '#B3E5FC'};
+    } else if (parseInt(estado) === 1) {
+      return { 'background-color': '#C8E6C9' };
+    } else if (parseInt(estado) === 2) {
+      return { };
+    } else {
+      return {}; // Estilos por defecto si no se cumple ninguna condición
+    }
+  }
+
+  obtenerTipoPago(estado: string): { [key: string]: string } {
+    if (parseInt(estado) === 0) {
+      return { 'background-color': '#B3E5FC'};
+    } else if (parseInt(estado) === 1) {
+      return { 'background-color': '#ff90ff'};
+    } else if (parseInt(estado) === 2) {
+      return { 'background-color': '#C8E6C9'};
+    } else {
+      return {}; // Estilos por defecto si no se cumple ninguna condición
+    }
+  }
   
 }

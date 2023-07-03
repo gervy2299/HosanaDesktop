@@ -90,7 +90,12 @@ export class PacientesService {
 
   obtenerFechaActualEnLetra(): string {
     const fechaActual = new Date();
+  
+    const diasEnLetra = [
+      "domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"
+    ];
     
+    const diaSemana = diasEnLetra[fechaActual.getDay()];
     const dia = fechaActual.getDate();
     const mes = fechaActual.getMonth();
     const año = fechaActual.getFullYear();
@@ -100,10 +105,22 @@ export class PacientesService {
       "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
     ];
     
-    const fechaEnLetra = `${dia} de ${mesesEnLetra[mes]} de ${año}`;
+    const fechaEnLetra = `${diaSemana}, ${dia} de ${mesesEnLetra[mes]} de ${año}`;
     
     return fechaEnLetra;
   }
+
+  efectivoTotal(): number {
+    const pacientes = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
+    let sumaEfectivo = 0;
   
+    pacientes.forEach((paciente: any) => {
+      if(paciente.tipo_pago === 0){
+      sumaEfectivo += parseFloat(paciente.costo);
+    }
+    });
+  
+    return sumaEfectivo;
+  }
 
 }
