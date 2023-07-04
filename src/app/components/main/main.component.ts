@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Usuario } from '../../interfaces/usuario';
-import { ModalsComponent } from '../modals/modals.component';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { PacientesService } from 'src/app/services/pacientes.service';
 import { MatSort } from '@angular/material/sort';
 import { DialogComponent } from '../dialog/dialog.component';
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 
 interface EstadoPago {
   value: number;
@@ -32,10 +32,14 @@ interface TipoPago {
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit{ 
-
+  
+  
   listUsuario : Usuario[] = [];
   displayedColumns: string[] = ['nombre', 'costo', 'estado', 'estadoP', 'tipoP', 'acciones'];  
   dataSource!: MatTableDataSource<any>;
+
+  animal: string = "";
+  name: string = "";
   
   foods: EstadoPago[] = [
     {value: 0, viewValue: 'PENDIENTE',st:false},
@@ -75,8 +79,8 @@ export class MainComponent implements OnInit{
     this.pacienteService.addPacientes({
       nombre: pacienteNombre.value.toUpperCase(),
       costo: pacienteCosto.value,
-      stado_pago: -1,
-      stado_paciente:-1,
+      stado_pago: 0,
+      stado_paciente:1,
       tipo_pago: -1
     });
 
@@ -90,7 +94,11 @@ export class MainComponent implements OnInit{
   }
 
   eliminarPaciente(paciente: Usuario){
-    const dialogRef = this.dialog.open(DialogComponent);
+    // const dialogRef = this.dialog.open(DialogComponent);
+
+    const dialogRef = this.dialog.open(DialogComponent, {      
+      data: {msg: '¿Desea eliminar al paciente?'} // Puedes pasar datos al diálogo si es necesario
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -109,10 +117,11 @@ export class MainComponent implements OnInit{
 
   cargarUsuario(){
     this.listUsuario = this.pacienteService.getPacientes();
-    this.dataSource = new MatTableDataSource(this.listUsuario); 
+    this.dataSource = new MatTableDataSource(this.listUsuario.slice().reverse()); 
     this.dia = this.pacienteService.obtenerFechaActualEnLetra();
     this.cantidad = this.pacienteService.obtenerCantidadPacientes();
   }
+  
 
   ngOnInit(): void {
     this.cargarUsuario();   
@@ -134,10 +143,21 @@ export class MainComponent implements OnInit{
   }
 
   vaciarLocal(){
-    localStorage.clear();
-    console.log('se esta borrando la lista...');
-    // this.cargarUsuario();
-    location.reload();    
+    const dialogRef = this.dialog.open(DialogComponent, {      
+      data: {msg: '¿Desea eliminar toda la tabla?'} // Puedes pasar datos al diálogo si es necesario
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if(result === true){
+        localStorage.clear();
+        console.log('se esta borrando la lista...');
+        // this.cargarUsuario();
+        location.reload(); 
+      } else {
+        console.log("no se elimino")
+      }
+    });
   }
 
   editarPaciente(paciente: Usuario) {
@@ -149,7 +169,7 @@ export class MainComponent implements OnInit{
     if (parseInt(estado) === 1) {
       return { };
     } else if (parseInt(estado) === 0) {
-      return { 'background-color': '#FFFF99' };
+      return { 'background-color': '#DC505B' };
     } else {
       return {}; // Estilos por defecto si no se cumple ninguna condición
     }
@@ -178,5 +198,21 @@ export class MainComponent implements OnInit{
       return {}; // Estilos por defecto si no se cumple ninguna condición
     }
   }
+
+  editaPaciente(paciente: Usuario){
+    const dialogRef = this.dialog.open(EditDialogComponent, {
+      width: '250px',
+      data: paciente // Puedes pasar datos al diálogo si es necesario
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.editarPaciente(result);
+        this.cargarUsuario();
+      }
+    });
+
+  }
+
   
 }

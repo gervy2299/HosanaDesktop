@@ -26,6 +26,7 @@ import {FormsModule} from '@angular/forms';
 import { PdfComponent } from './components/pdf/pdf.component';
 import {MatDividerModule} from '@angular/material/divider';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 
 
 
@@ -37,7 +38,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MainComponent,
     ModalsComponent,
     PdfComponent,
-    DialogComponent
+    DialogComponent,
+    EditDialogComponent
   ],
   imports: [
     BrowserModule,

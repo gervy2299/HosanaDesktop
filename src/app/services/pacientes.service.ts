@@ -63,6 +63,19 @@ export class PacientesService {
     localStorage.setItem('PACIENTES', JSON.stringify(this.pacientes));
   }  
 
+  editarPacientes2(paciente: Usuario, ndato: Usuario) {
+    // const pacientes = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
+  
+    for (let i = 0; i < this.pacientes.length; i++) {
+      if (paciente == this.pacientes[i]) {
+        this.pacientes[i] = ndato;
+        break;
+      }
+    }
+  
+    localStorage.setItem('PACIENTES', JSON.stringify(this.pacientes));
+  }  
+
   obtenerFechaActual(): string {
     const fechaActual = new Date();
     const dia = fechaActual.getDate();
