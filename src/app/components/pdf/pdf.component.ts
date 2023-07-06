@@ -4,6 +4,7 @@ import { text } from 'express';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { GastosService } from 'src/app/services/gastos.service';
+import { MainComponent } from '../main/main.component';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -18,7 +19,8 @@ export class PdfComponent implements OnInit {
 
   constructor(
     public pacienteService : PacientesService,
-    public gastosService : GastosService
+    public gastosService : GastosService,
+    public main : MainComponent
     ) { }
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class PdfComponent implements OnInit {
     const data = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
     const otro = JSON.stringify(data);
 
-    const inicia:number = 0;
+    const inicia:number = this.main.cajaInicial;
 
     const fechaActual = this.pacienteService.obtenerFechaActualEnLetra();
     const cantidadPacientes = this.pacienteService.obtenerCantidadPacientes();
@@ -164,7 +166,7 @@ export class PdfComponent implements OnInit {
                 text: 'Inicia: s/'+ inicia, fontSize: 14, bold: false, margin: [0, 30, 0, 30]
               },
               {
-                text: 'Finaliza: s/'+ (efectivo-gasTotal), fontSize: 14, bold: false, margin: [0, 30, 0, 30]
+                text: 'Finaliza: s/'+ ((inicia+efectivo)-gasTotal), fontSize: 14, bold: false, margin: [0, 30, 0, 30]
               }
             ]
         },

@@ -30,6 +30,7 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog.compon
 import {MatGridListModule} from '@angular/material/grid-list';
 import { GastosComponent } from './components/gastos/gastos.component';
 import { EditPagosComponent } from './components/edit-pagos/edit-pagos.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -45,7 +46,7 @@ import { EditPagosComponent } from './components/edit-pagos/edit-pagos.component
     DialogComponent,
     EditDialogComponent,
     GastosComponent,
-    EditPagosComponent
+    EditPagosComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +66,7 @@ import { EditPagosComponent } from './components/edit-pagos/edit-pagos.component
     FormsModule,
     MatDividerModule,
     MatGridListModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
