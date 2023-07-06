@@ -7,6 +7,7 @@ import { PacientesService } from 'src/app/services/pacientes.service';
 import { MatSort } from '@angular/material/sort';
 import { DialogComponent } from '../dialog/dialog.component';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { GastosComponent } from '../gastos/gastos.component';
 
 interface EstadoPago {
   value: number;
@@ -212,6 +213,27 @@ export class MainComponent implements OnInit{
       }
     });
 
+  }
+
+
+  openGastos(){
+    const dialogRef = this.dialog.open(GastosComponent, {      
+      width: '1200px',
+      // height: 'auto',
+      data: {
+        title: 'Gastos',
+        descrip: 'Ingrese una breve descripcion y el monto del gasto realizado.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if(result === true){
+        console.log(result)
+      } else {
+        console.log("no se elimino")
+      }
+    });
   }
 
   

@@ -5,3 +5,8 @@ export interface Usuario {
     stado_paciente: number,
     tipo_pago: number
 }
+
+export interface Pagos{
+    descripcion: string,
+    cantidad: number
+}

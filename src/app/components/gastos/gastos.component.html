@@ -1,0 +1,61 @@
+<h2 mat-dialog-title >{{data.title}}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <h3>{{data.descrip}}</h3>  
+<div class="form">
+    <mat-form-field class="" appearance="fill">
+        <mat-label class="important">Descripcion del Gasto</mat-label>
+        <input style="text-transform: uppercase;" matInput placeholder="Ejm: Pago del jabón." #descGasto>
+    </mat-form-field>
+    <!-- <br> -->
+    <mat-form-field appearance="fill">
+        <mat-label class="important">Monto</mat-label>
+        <input type="number" matInput placeholder="Ejm: 25.50" #montGasto>
+    </mat-form-field>
+    <!-- <br> -->
+    <button style="margin: 0 8px;" mat-raised-button color="primary" (click)="agregarGasto(descGasto, montGasto)" matTooltip="Agregar Gasto">Agregar</button>    
+</div>
+<br>
+  
+</mat-dialog-content>
+
+<div class="table">
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [width]="350"> DESCRIPCION </th>
+            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="monto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [width]="300"> MONTO </th>
+            <td mat-cell *matCellDef="let element"> s/{{element.cantidad}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [width]="300"> ACCIONES </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <a class="pointer" (click)="eliminarPaciente(element)" matTooltip="Eliminar Usuario" style="color: red">
+                    <mat-icon>delete</mat-icon>
+                </a>
+                <a class="pointer" (click)="editaPaciente(element)" matTooltip="Editar Usuario" style="color: rgb(70, 70, 214)">
+                    <mat-icon>edit</mat-icon>
+                </a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumn;"></tr>
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                     showFirstLastButtons 
+                     aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Cerrar</button>
+</mat-dialog-actions>

@@ -3,6 +3,7 @@ import { text } from 'express';
 
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { GastosService } from 'src/app/services/gastos.service';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -15,7 +16,10 @@ import { PacientesService } from 'src/app/services/pacientes.service';
 })
 export class PdfComponent implements OnInit {    
 
-  constructor(public pacienteService : PacientesService) { }
+  constructor(
+    public pacienteService : PacientesService,
+    public gastosService : GastosService
+    ) { }
 
   ngOnInit(): void {
     this.verPaciente();    
@@ -24,18 +28,23 @@ export class PdfComponent implements OnInit {
   verPaciente(){
     const pacientes = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
     const otro = JSON.stringify(pacientes);
-    // console.log(pacientes);
     return pacientes;
   }
 
   generarPDF() {
     const dato = this.verPaciente();
+    const gasto = JSON.parse(localStorage.getItem('GASTOS') || "{}");
     const data = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
     const otro = JSON.stringify(data);
+
+    const inicia:number = 0;
+
     const fechaActual = this.pacienteService.obtenerFechaActualEnLetra();
     const cantidadPacientes = this.pacienteService.obtenerCantidadPacientes();
     const costosTotal = this.pacienteService.obtenerSumaCostos();
     const efectivo = this.pacienteService.efectivoTotal();
+
+    const gasTotal = this.gastosService.gastosTotal();
 
     const pdfDefinition: any = {
       pageSize: 'A4',
@@ -109,6 +118,55 @@ export class PdfComponent implements OnInit {
             }
           ],
           style: 'header'
+        },
+        {  
+          alignment: 'justify',
+            columns: [
+              {
+                text: 'Gastos del día', fontSize: 24, bold: true, margin: [0, 20, 0, 30]
+              },
+              {
+                // text: 'Fecha: '+fechaActual, fontSize: 14, bold: false, margin: [0, 30, 0, 30]
+              }
+            ]
+        },
+        {
+          style: 'tablaContenido',
+          table: {
+            headerRows: 1,
+            widths: ['*', '*'],
+            body: [
+              [
+                { text: 'Descripcion', style: 'headerCell' },
+                { text: 'Monto', style: 'headerCell' }
+              ],
+              ...gasto.map((gasto:any) => [gasto.descripcion, gasto.cantidad])
+            ]
+          }
+        },
+        "\n\n",
+        {          
+          columns: [
+            {
+              text:'Gastos Totales: s/' + gasTotal
+            }
+          ],
+          style: 'header'
+        },
+
+        {  
+          alignment: 'justify',
+            columns: [
+              {
+                text: 'Caja', fontSize: 24, bold: true, margin: [0, 20, 0, 30]
+              },
+              {
+                text: 'Inicia: s/'+ inicia, fontSize: 14, bold: false, margin: [0, 30, 0, 30]
+              },
+              {
+                text: 'Finaliza: s/'+ (efectivo-gasTotal), fontSize: 14, bold: false, margin: [0, 30, 0, 30]
+              }
+            ]
         },
         {
           // alignment: 'justify',

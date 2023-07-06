@@ -27,6 +27,10 @@ import { PdfComponent } from './components/pdf/pdf.component';
 import {MatDividerModule} from '@angular/material/divider';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { GastosComponent } from './components/gastos/gastos.component';
+import { EditPagosComponent } from './components/edit-pagos/edit-pagos.component';
+
 
 
 
@@ -39,7 +43,9 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog.compon
     ModalsComponent,
     PdfComponent,
     DialogComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    GastosComponent,
+    EditPagosComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +64,7 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog.compon
     HttpClientModule,
     FormsModule,
     MatDividerModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

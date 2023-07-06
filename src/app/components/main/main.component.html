@@ -16,7 +16,7 @@
         <input matInput placeholder="Ex. {{nombre}}">
     </mat-form-field> -->
     <button style="margin: 0 4px;" mat-raised-button color="primary" (click)="grabar_localstorage(pacienteNombre, pacienteCosto)" matTooltip="Agregar paciente a la lista">Agregar</button>    
-    <button  mat-raised-button color="warn" (click)="vaciarLocal()">Resetear</button>    
+      
     
 </div>
 <mat-divider></mat-divider>
@@ -132,9 +132,16 @@
         </mat-paginator>
       </div>
       <br>
-      <div>
-        <app-pdf></app-pdf>
-      </div>
+    <section>
+        <div class="example-label">
+            <app-pdf></app-pdf>  
+        </div>
+        <div class="example-button-row">
+                  
+            <button  mat-raised-button color="warn" (click)="vaciarLocal()">Resetear</button>  
+            <button mat-raised-button color="primary" (click)="openGastos()" >Nuevo Gasto</button>
+        </div>
+    </section>
       
       
 

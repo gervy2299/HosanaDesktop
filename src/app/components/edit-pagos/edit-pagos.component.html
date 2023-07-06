@@ -1,0 +1,18 @@
+<h2 mat-dialog-title style="color:blue"> Editar Paciente</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="form">
+        <mat-form-field class="" appearance="fill">
+            <mat-label class="important">Descripcion</mat-label>
+            <input style="text-transform: uppercase;" matInput placeholder="Ejm: MIGUEL LUIS ADREDA SILVA" #descN value="{{data.descripcion}}">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label class="important">Monto</mat-label>
+            <input type="number" matInput placeholder="Ejm: 35" #montoN value="{{data.cantidad}}">
+        </mat-form-field>
+    </div>
+  
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>No</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onSave(descN,montoN)">Si</button>
+</mat-dialog-actions>
