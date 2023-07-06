@@ -49,7 +49,7 @@ export class MainComponent implements OnInit{
   animal: string = "";
   name: string = "";
 
-  cajaInicial: number = 0;
+  cajaInicial: string = "0";
   
   foods: EstadoPago[] = [
     {value: 0, viewValue: 'PENDIENTE',st:false},
@@ -246,7 +246,7 @@ export class MainComponent implements OnInit{
   }
 
   escribiendo(monto: any){
-    this.cajaInicial = 0;
+    this.cajaInicial = "0";
     this.cajaInicial = monto.value;
     return this.cajaInicial;
   }

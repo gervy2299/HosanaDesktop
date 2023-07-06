@@ -39,7 +39,7 @@ export class PdfComponent implements OnInit {
     const data = JSON.parse(localStorage.getItem('PACIENTES') || "{}");
     const otro = JSON.stringify(data);
 
-    const inicia:number = this.main.cajaInicial;
+    const inicia: string = this.main.cajaInicial;
 
     const fechaActual = this.pacienteService.obtenerFechaActualEnLetra();
     const cantidadPacientes = this.pacienteService.obtenerCantidadPacientes();
@@ -166,7 +166,7 @@ export class PdfComponent implements OnInit {
                 text: 'Inicia: s/'+ inicia, fontSize: 14, bold: false, margin: [0, 30, 0, 30]
               },
               {
-                text: 'Finaliza: s/'+ ((inicia+efectivo)-gasTotal), fontSize: 14, bold: false, margin: [0, 30, 0, 30]
+                text: 'Finaliza: s/'+ ((parseFloat(inicia)+efectivo)-gasTotal), fontSize: 14, bold: false, margin: [0, 30, 0, 30]
               }
             ]
         },
